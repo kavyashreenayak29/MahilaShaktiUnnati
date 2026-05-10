@@ -1,4 +1,4 @@
-# Mahila Shakti Unnati 🌿
+# Mahila Shakti Unnati
 
 **Mahila Shakti Unnati** is a premium, bilingual digital ledger application designed specifically for Self-Help Groups (SHGs). It streamlines financial management, member tracking, and loan processing with a beautiful, intuitive interface.
 
@@ -29,8 +29,3 @@ The app features a "Nature-Inspired" premium theme using a soft color palette (S
 ### Prerequisites
 - Android Studio Ladybug or newer.
 - Android SDK 24 (Android 7.0) or higher.
-
-### Installation
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/kavyashreenayak29/MahilaShaktiUnnati.git
