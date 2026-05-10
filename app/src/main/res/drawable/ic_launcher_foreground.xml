@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Outer Gold Ring -->
+    <path
+        android:fillColor="#FFD700"
+        android:pathData="M54,54m-45,0a45,45 0,1 1,90 0a45,45 0,1 1,-90 0" />
+    <!-- Inner Purple Circle -->
+    <path
+
+        android:fillColor="#4A148C"
+        android:pathData="M54,54m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0" />
+    <!-- Symbolic "MS" (Mahila Shakti) or People icon -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,34c-6,0 -11,5 -11,11s5,11 11,11s11,-5 11,-11S60,34 54,34z M34,74c0,-11 9,-20 20,-20s20,9 20,20v4h-40v-4z" />
+    <!-- Accent Pink dots -->
+    <path
+        android:fillColor="#E91E63"
+        android:pathData="M24,54a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+    <path
+        android:fillColor="#E91E63"
+        android:pathData="M76,54a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+</vector>
