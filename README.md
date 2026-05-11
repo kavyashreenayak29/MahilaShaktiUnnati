@@ -16,9 +16,9 @@
 
 ## 📸 Screenshots
 
-| Dashboard | Member Ledger | Savings Entry |
+| Dashboard | Savings Tracker | Loan Tracker |
 | :---: | :---: | :---: |
-| <img src="https://via.placeholder.com/200x400?text=Dashboard+UI" width="200" /> | <img src="https://via.placeholder.com/200x400?text=Ledger+UI" width="200" /> | <img src="https://via.placeholder.com/200x400?text=Savings+UI" width="200" /> |
+| <img src="[https://via.placeholder.com/200x400?text=Dashboard+UI](https://github.com/kavyashreenayak29/MahilaShaktiUnnati/blob/master/images/home_screen.jpeg)" width="200" /> | <img src="[https://via.placeholder.com/200x400?text=Ledger+UI](https://github.com/kavyashreenayak29/MahilaShaktiUnnati/blob/master/images/savings_entry.jpeg)" width="200" /> | <img src="[https://via.placeholder.com/200x400?text=Savings+UI](https://github.com/kavyashreenayak29/MahilaShaktiUnnati/blob/master/images/loan_tracker.jpeg)" width="200" /> |
 | *Premium Nature-Inspired UI* | *Deep Financial Insights* | *Bilingual Tracking* |
 
 ---
