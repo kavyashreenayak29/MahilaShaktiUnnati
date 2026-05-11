@@ -4,7 +4,6 @@
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.9+-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Android](https://img.shields.io/badge/Android-7.0+-3DDC84?logo=android&logoColor=white)](https://developer.android.com)
 [![Platform](https://img.shields.io/badge/Platform-Jetpack%20Compose-orange)](https://developer.android.com/jetpack/compose)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
@@ -19,7 +18,7 @@
 | Dashboard | Savings Tracker | Loan Tracker |
 | :---: | :---: | :---: |
 | <img src="https://raw.githubusercontent.com/kavyashreenayak29/MahilaShaktiUnnati/master/images/home_screen.jpeg" width="200" /> | <img src="https://raw.githubusercontent.com/kavyashreenayak29/MahilaShaktiUnnati/master/images/savings_entry.jpeg" width="200" /> | <img src="https://raw.githubusercontent.com/kavyashreenayak29/MahilaShaktiUnnati/master/images/loan_tracker.jpeg" width="200" /> |
-| *Premium Nature-Inspired UI* | *Deep Financial Insights* | *Bilingual Tracking* |
+| **Main Dashboard**: Real-time insights into group liquidity, total savings trend, and social impact scores. | **Weekly Savings Entry**: A simple interface to log contributions and track attendance for every member. | **Loan Management**: Visual progress bars and detailed history for all internal and external group loans. |
 
 ---
 
@@ -71,20 +70,5 @@ Open in Android Studio, wait for the **Gradle Sync**, and hit **Run**.
 
 ---
 
-## 🤝 Contributing
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
-
-Produced with ❤️ for the Empowerment of Women.
+**Simplifying financial management to foster growth and transparency for every SHG member. 🌿🚀**
