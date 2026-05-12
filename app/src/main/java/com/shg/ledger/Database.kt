@@ -1,7 +1,6 @@
 package com.shg.ledger
 
 
-
 import android.content.Context
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
@@ -59,7 +58,7 @@ interface SHGGroupDao {
     suspend fun insertGroup(group: SHGGroup)
 }
 
-@Database(entities = [SHGGroup::class, Member::class, SavingsRecord::class, LoanRecord::class, AttendanceRecord::class, TransactionRecord::class], version = 4, exportSchema = false)
+@Database(entities = [SHGGroup::class, Member::class, SavingsRecord::class, LoanRecord::class, AttendanceRecord::class, TransactionRecord::class], version = 7, exportSchema = false)
 abstract class ShgDatabase : RoomDatabase() {
     abstract fun dao(): ShgDao
     abstract fun groupDao(): SHGGroupDao
@@ -81,6 +80,9 @@ abstract class ShgDatabase : RoomDatabase() {
         }
     }
 }
+
+
+
 
 
 

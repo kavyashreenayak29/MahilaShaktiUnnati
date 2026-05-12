@@ -1,7 +1,6 @@
 package com.shg.ledger
 
 
-
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.UUID
@@ -11,7 +10,8 @@ data class SHGGroup(
     @PrimaryKey(autoGenerate = true)
     val groupId: Long = 0,
     val groupName: String,
-    val groupCode: String?
+    val groupCode: String?,
+    val weeklySavingsAmount: Double = 100.0
 )
 
 @Entity(tableName = "members")
@@ -76,4 +76,6 @@ data class TransactionRecord(
     val date: Long = System.currentTimeMillis(),
     val referenceId: String? = null
 )
+
+
 

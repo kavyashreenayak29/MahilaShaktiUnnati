@@ -1,7 +1,6 @@
 package com.shg.ledger
 
 
-
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -230,9 +229,13 @@ class ShgViewModel(private val dao: ShgDao, private val groupDao: SHGGroupDao) :
         }
     }
 
-    fun createGroup(name: String, code: String?) {
+    fun createGroup(name: String, code: String?, savingsAmount: Double) {
         viewModelScope.launch {
-            groupDao.insertGroup(SHGGroup(groupName = name, groupCode = if (code.isNullOrBlank()) null else code))
+            groupDao.insertGroup(SHGGroup(
+                groupName = name,
+                groupCode = if (code.isNullOrBlank()) null else code,
+                weeklySavingsAmount = savingsAmount
+            ))
         }
     }
 }
@@ -301,8 +304,8 @@ fun ShgApp() {
         SplashScreen(lang)
     } else {
         if (shgGroup == null) {
-            GroupSetupScreen(lang, onSetup = { name, code ->
-                vm.createGroup(name, code)
+            GroupSetupScreen(lang, onSetup = { name, code, savings ->
+                vm.createGroup(name, code, savings)
             })
         } else {
             Scaffold(
@@ -429,9 +432,14 @@ fun SplashScreen(lang: Language) {
 }
 
 @Composable
-fun GroupSetupScreen(lang: Language, onSetup: (String, String) -> Unit) {
+fun GroupSetupScreen(lang: Language, onSetup: (String, String, Double) -> Unit) {
     var groupName by remember { mutableStateOf("") }
     var groupCode by remember { mutableStateOf("") }
+    var savingsAmount by remember { mutableStateOf("100") }
+
+    val isCodeValid = groupCode.length == 4 && groupCode.all { it.isDigit() }
+    val isSavingsValid = savingsAmount.toDoubleOrNull()?.let { it >= 10 && it <= 1000 } ?: false
+    val canProceed = groupName.isNotBlank() && isCodeValid && isSavingsValid
 
     Box(
         modifier = Modifier
@@ -448,7 +456,9 @@ fun GroupSetupScreen(lang: Language, onSetup: (String, String) -> Unit) {
             shadowElevation = 8.dp
         ) {
             Column(
-                modifier = Modifier.padding(24.dp),
+                modifier = Modifier
+                    .padding(24.dp)
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -479,27 +489,70 @@ fun GroupSetupScreen(lang: Language, onSetup: (String, String) -> Unit) {
 
                 OutlinedTextField(
                     value = groupName,
-                    onValueChange = { groupName = it },
+                    onValueChange = { if (it.length <= 30) groupName = it },
                     label = { Text(lang.groupNameHint) },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    singleLine = true
                 )
 
                 OutlinedTextField(
                     value = groupCode,
-                    onValueChange = { groupCode = it },
+                    onValueChange = {
+                        if (it.length <= 4 && it.all { char -> char.isDigit() }) {
+                            groupCode = it
+                        }
+                    },
                     label = { Text(lang.groupCodeHint) },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                        keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                    ),
+                    singleLine = true,
+                    supportingText = {
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            if (groupCode.isNotEmpty() && !isCodeValid) {
+                                Text(lang.invalidCodeError, color = MaterialTheme.colorScheme.error, fontSize = 11.sp)
+                            } else {
+                                Spacer(Modifier.width(1.dp))
+                            }
+                            Text("${groupCode.length}/4", fontSize = 11.sp, color = if (isCodeValid) Sage else TextMuted)
+                        }
+                    },
+                    isError = groupCode.isNotEmpty() && !isCodeValid
+                )
+
+                OutlinedTextField(
+                    value = savingsAmount,
+                    onValueChange = {
+                        if (it.length <= 5 && (it.isEmpty() || it.all { char -> char.isDigit() })) {
+                            savingsAmount = it
+                        }
+                    },
+                    label = { Text(lang.weeklySavingsLabel) },
+                    placeholder = { Text(lang.weeklySavingsHint) },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                        keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                    ),
+                    singleLine = true,
+                    isError = savingsAmount.isNotEmpty() && !isSavingsValid,
+                    prefix = { Text("₹ ") }
                 )
 
                 Spacer(Modifier.height(8.dp))
 
                 Button(
-                    onClick = { if (groupName.isNotBlank()) onSetup(groupName, groupCode) },
+                    onClick = {
+                        if (canProceed) {
+                            onSetup(groupName, groupCode, savingsAmount.toDoubleOrNull() ?: 100.0)
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth().height(56.dp),
                     shape = RoundedCornerShape(16.dp),
-                    enabled = groupName.isNotBlank()
+                    enabled = canProceed
                 ) {
                     Text(lang.createGroup, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
@@ -1332,6 +1385,8 @@ fun SavingsScreen(vm: ShgViewModel, lang: Language) {
     val members by vm.members.collectAsState()
     val savings by vm.savings.collectAsState()
     val attendance by vm.attendance.collectAsState()
+    val group by vm.group.collectAsState()
+    val weeklyAmount = group?.weeklySavingsAmount ?: 100.0
 
     var selectedWeek by remember {
         val calendar = Calendar.getInstance()
@@ -1419,7 +1474,7 @@ fun SavingsScreen(vm: ShgViewModel, lang: Language) {
                     Spacer(Modifier.width(16.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(member.name, fontWeight = FontWeight.Bold, color = TextDark)
-                        Text(if (isPaid) "${lang.paid.uppercase()} (₹100)" else "${lang.pending.uppercase()} (₹100)", fontSize = 10.sp, fontWeight = FontWeight.Black, color = if (isPaid) Sage else Earth)
+                        Text(if (isPaid) "${lang.paid.uppercase()} (₹${weeklyAmount.toInt()})" else "${lang.pending.uppercase()} (₹${weeklyAmount.toInt()})", fontSize = 10.sp, fontWeight = FontWeight.Black, color = if (isPaid) Sage else Earth)
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                         Surface(
@@ -1434,7 +1489,7 @@ fun SavingsScreen(vm: ShgViewModel, lang: Language) {
                             )
                         }
                         Button(
-                            onClick = { if (!isPaid) vm.addSavings(member.id, 100.0, selectedWeek) },
+                            onClick = { if (!isPaid) vm.addSavings(member.id, weeklyAmount, selectedWeek) },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = if (isPaid) SageLight else Sage,
                                 contentColor = if (isPaid) Sage else Color.White
@@ -1442,7 +1497,7 @@ fun SavingsScreen(vm: ShgViewModel, lang: Language) {
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.height(48.dp)
                         ) {
-                            Text(if (isPaid) "+ ${lang.paid}" else "₹100 ${lang.saveAction}", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            Text(if (isPaid) "+ ${lang.paid}" else "₹${weeklyAmount.toInt()} ${lang.saveAction}", fontSize = 12.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -1803,6 +1858,7 @@ fun CalculationRow(label: String, value: String, isBold: Boolean = false, color:
         Text(value, fontSize = 14.sp, fontWeight = if (isBold) FontWeight.Bold else FontWeight.Medium, color = color)
     }
 }
+
 
 
 

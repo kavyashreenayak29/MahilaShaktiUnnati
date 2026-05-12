@@ -1,7 +1,6 @@
 package com.shg.ledger
 
 
-
 sealed class Language(
     val appName: String,
     val dashboard: String,
@@ -70,7 +69,10 @@ sealed class Language(
     val enterGroupName: String,
     val groupNameHint: String,
     val groupCodeHint: String,
-    val createGroup: String
+    val createGroup: String,
+    val invalidCodeError: String,
+    val weeklySavingsLabel: String,
+    val weeklySavingsHint: String
 ) {
     object English : Language(
         appName = "Mahila-Shakti Unnati",
@@ -139,8 +141,11 @@ sealed class Language(
         groupSetup = "Group Setup",
         enterGroupName = "Setup Your SHG Group",
         groupNameHint = "Group Name (e.g. Mahila Shakti)",
-        groupCodeHint = "Group Code (Optional)",
-        createGroup = "Create Group"
+        groupCodeHint = "Group Code (4 Digits)",
+        createGroup = "Create Group",
+        invalidCodeError = "Code must be exactly 4 digits",
+        weeklySavingsLabel = "Weekly Savings Amount",
+        weeklySavingsHint = "e.g. 20, 50, 100"
     )
 
     object Kannada : Language(
@@ -210,10 +215,15 @@ sealed class Language(
         groupSetup = "ತಂಡದ ಸಿದ್ಧತೆ",
         enterGroupName = "ನಿಮ್ಮ ತಂಡವನ್ನು ಸ್ಥಾಪಿಸಿ",
         groupNameHint = "ತಂಡದ ಹೆಸರು (ಉದಾ: ಮಹಿಳಾ ಶಕ್ತಿ)",
-        groupCodeHint = "ತಂಡದ ಕೋಡ್ (ಐಚ್ಛಿಕ)",
-        createGroup = "ತಂಡವನ್ನು ರಚಿಸಿ"
+        groupCodeHint = "ತಂಡದ ಕೋಡ್ (4 ಅಂಕಿಗಳು)",
+        createGroup = "ತಂಡವನ್ನು ರಚಿಸಿ",
+        invalidCodeError = "ಕೋಡ್ ಸರಿಯಾಗಿ 4 ಅಂಕಿಗಳಿರಬೇಕು",
+        weeklySavingsLabel = "ವಾರದ ಉಳಿತಾಯ ಮೊತ್ತ",
+        weeklySavingsHint = "ಉದಾ: 20, 50, 100"
     )
 }
+
+
 
 
 
